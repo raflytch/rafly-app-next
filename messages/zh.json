@@ -1,0 +1,29 @@
+{
+  "home": {
+    "greeting": "你好，欢迎！",
+    "introduction": "介绍",
+    "name": "姓名",
+    "myName": "我的名字是 Rafly Aziz Abdillah",
+    "nim": "学号",
+    "nimValue": "2210512003",
+    "course": "课程",
+    "courseValue": "云计算",
+    "description": "我是UPN Veteran Jakarta的一名学生，正在学习云计算课程。这个网站是作为学习云技术和使用 Next.js 进行现代 Web 开发的一部分而创建的。"
+  },
+  "navbar": {
+    "selectLanguage": "选择语言",
+    "tempChat": "临时聊天"
+  },
+  "userMenu": {
+    "profile": "个人资料"
+  },
+  "languages": {
+    "id": "Bahasa Indonesia",
+    "en": "English",
+    "zh": "中文",
+    "fr": "Français",
+    "es": "Español",
+    "ru": "Русский",
+    "ar": "العربية"
+  }
+}

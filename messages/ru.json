@@ -1,0 +1,29 @@
+{
+  "home": {
+    "greeting": "Привет, Добро пожаловать!",
+    "introduction": "Представление",
+    "name": "Имя",
+    "myName": "Меня зовут Rafly Aziz Abdillah",
+    "nim": "Студенческий билет",
+    "nimValue": "2210512003",
+    "course": "Курс",
+    "courseValue": "Облачные вычисления",
+    "description": "Я студент UPN Veteran Jakarta, который в настоящее время изучает курс облачных вычислений. Этот веб-сайт был создан как часть изучения облачных технологий и современной веб-разработки с использованием Next.js."
+  },
+  "navbar": {
+    "selectLanguage": "Выбрать язык",
+    "tempChat": "Временный чат"
+  },
+  "userMenu": {
+    "profile": "Профиль"
+  },
+  "languages": {
+    "id": "Bahasa Indonesia",
+    "en": "English",
+    "zh": "中文",
+    "fr": "Français",
+    "es": "Español",
+    "ru": "Русский",
+    "ar": "العربية"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "home": {
+    "greeting": "مرحبا، أهلا وسهلا!",
+    "introduction": "تقديم",
+    "name": "الاسم",
+    "myName": "اسمي رفلي عزيز عبد الله",
+    "nim": "الرقم الجامعي",
+    "nimValue": "2210512003",
+    "course": "المقرر الدراسي",
+    "courseValue": "الحوسبة السحابية",
+    "description": "أنا طالب في UPN Veteran Jakarta يدرس حاليًا مقرر الحوسبة السحابية. تم إنشاء هذا الموقع كجزء من تعلم تقنية السحابة وتطوير الويب الحديث باستخدام Next.js."
+  },
+  "navbar": {
+    "selectLanguage": "اختر اللغة",
+    "tempChat": "دردشة مؤقتة"
+  },
+  "userMenu": {
+    "profile": "الملف الشخصي"
+  },
+  "languages": {
+    "id": "Bahasa Indonesia",
+    "en": "English",
+    "zh": "中文",
+    "fr": "Français",
+    "es": "Español",
+    "ru": "Русский",
+    "ar": "العربية"
+  }
+}

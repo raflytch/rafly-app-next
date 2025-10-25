@@ -1,0 +1,29 @@
+{
+  "home": {
+    "greeting": "Hello, Welcome!",
+    "introduction": "Introduction",
+    "name": "Name",
+    "myName": "My Name is Rafly Aziz Abdillah",
+    "nim": "Student ID",
+    "nimValue": "2210512003",
+    "course": "Course",
+    "courseValue": "Cloud Computing",
+    "description": "I am a student at UPN Veteran Jakarta currently taking Cloud Computing course. This website is created as part of learning cloud technology and modern web development using Next.js."
+  },
+  "navbar": {
+    "selectLanguage": "Select Language",
+    "tempChat": "Temporary Chat"
+  },
+  "userMenu": {
+    "profile": "Profile"
+  },
+  "languages": {
+    "id": "Bahasa Indonesia",
+    "en": "English",
+    "zh": "中文",
+    "fr": "Français",
+    "es": "Español",
+    "ru": "Русский",
+    "ar": "العربية"
+  }
+}
