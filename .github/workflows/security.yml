@@ -1,0 +1,111 @@
+name: Security & Quality Checks
+
+on:
+    push:
+        branches: ["main", "develop"]
+    pull_request:
+        branches: ["main", "develop"]
+
+jobs:
+    security:
+        name: Security Scan
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "pnpm"
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: latest
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Run security audit
+              run: pnpm audit --audit-level moderate
+
+            - name: Run CodeQL Analysis
+              uses: github/codeql-action/init@v3
+              with:
+                  languages: javascript
+
+            - name: Autobuild
+              uses: github/codeql-action/autobuild@v3
+
+            - name: Perform CodeQL Analysis
+              uses: github/codeql-action/analyze@v3
+
+            - name: Dependency Review
+              uses: actions/dependency-review-action@v4
+              if: github.event_name == 'pull_request'
+
+    lint:
+        name: Code Quality
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "pnpm"
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: latest
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Run ESLint
+              run: pnpm lint
+
+            - name: Run TypeScript check
+              run: pnpm tsc --noEmit
+
+            - name: Check formatting
+              run: |
+                  if command -v prettier &> /dev/null; then
+                    pnpm prettier --check .
+                  else
+                    echo "Prettier not configured, skipping format check"
+                  fi
+
+    docker-security:
+        name: Docker Security Scan
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Build Docker image
+              run: docker build -t rafly-app-next .
+
+            - name: Scan Docker image
+              uses: aquasecurity/trivy-action@master
+              with:
+                  scan-type: "image"
+                  scan-ref: "rafly-app-next"
+                  format: "sarif"
+                  output: "trivy-results.sarif"
+
+            - name: Upload Trivy scan results
+              uses: github/codeql-action/upload-sarif@v3
+              if: always()
+              with:
+                  sarif_file: "trivy-results.sarif"

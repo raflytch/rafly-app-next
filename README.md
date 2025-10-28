@@ -19,6 +19,30 @@ docker build -t rafly-app-next .
 docker run -p 3000:3000 rafly-app-next
 ```
 
+## 🏗️ CI/CD Pipeline
+
+Project ini menggunakan GitHub Actions untuk CI/CD otomatis:
+
+### Workflows Tersedia:
+
+1. **ci-cd.yml** - Main pipeline (GitHub Container Registry)
+2. **dockerhub.yml** - Docker Hub deployment
+3. **deploy-staging.yml** - Staging environment deployment
+4. **security.yml** - Security dan quality checks
+
+### Setup Secrets (Repository Settings → Secrets and variables → Actions):
+
+```bash
+# Untuk Docker Hub (opsional)
+DOCKERHUB_USERNAME=your_username
+DOCKERHUB_TOKEN=your_access_token
+
+# Untuk SSH Deployment (staging/production)
+SSH_PRIVATE_KEY=your_private_key
+SERVER_USER=server_username
+SERVER_HOST=your_server_ip
+```
+
 ## 📦 Teknologi
 
 - **Next.js 16** - React Framework
@@ -28,6 +52,7 @@ docker run -p 3000:3000 rafly-app-next
 - **shadcn/ui** - UI Components
 - **Tailwind CSS** - Styling
 - **Docker** - Containerization
+- **GitHub Actions** - CI/CD
 
 ## 🌍 Bahasa yang Didukung
 
@@ -50,64 +75,57 @@ docker run -p 3000:3000 rafly-app-next
 
 ### Prerequisites
 
-- Node.js 20 atau lebih tinggi
+- Node.js 20+
 - pnpm
+- Docker (untuk testing)
 
-### Install Dependencies
+### Setup
 
 ```bash
+# Install dependencies
 pnpm install
-```
 
-### Run Development Server
-
-```bash
+# Run development server
 pnpm dev
-```
 
-### Build untuk Production
-
-```bash
+# Build untuk production
 pnpm build
-pnpm start
+
+# Run linting
+pnpm lint
+
+# Type check
+pnpm type-check
 ```
 
 ## 🐳 Docker Commands
 
-### Build Image
+### Production
 
 ```bash
+# Build image
 docker build -t rafly-app-next .
-```
 
-### Run Container
-
-```bash
+# Run container
 docker run -d -p 3000:3000 --name rafly-app rafly-app-next
+
+# Dengan nginx reverse proxy
+docker-compose up --build
 ```
 
-### Stop Container
+### Development
 
 ```bash
-docker stop rafly-app
-```
-
-### Remove Container
-
-```bash
-docker rm rafly-app
-```
-
-### View Logs
-
-```bash
-docker logs rafly-app
+# Development dengan hot reload
+docker-compose -f docker-compose.dev.yml up --build
 ```
 
 ## 📁 Struktur Project
 
 ```
 rafly-app-next/
+├── .github/
+│   └── workflows/          # CI/CD workflows
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx
@@ -119,16 +137,12 @@ rafly-app-next/
 │   │   ├── config.ts
 │   │   └── request.ts
 │   └── middleware.ts
-├── messages/
-│   ├── id.json
-│   ├── en.json
-│   ├── zh.json
-│   ├── fr.json
-│   ├── es.json
-│   ├── ru.json
-│   └── ar.json
-├── Dockerfile
-├── docker-compose.yml
+├── messages/               # Translation files
+├── Dockerfile              # Production build
+├── Dockerfile.dev          # Development build
+├── docker-compose.yml      # Production compose
+├── docker-compose.dev.yml  # Development compose
+├── nginx.conf              # Reverse proxy config
 └── package.json
 ```
 
@@ -146,15 +160,58 @@ rafly-app-next/
 - ✅ Dark mode support
 - ✅ Responsive design
 - ✅ Docker containerization
-- ✅ Production-ready
-- ✅ Clean & minimal UI
+- ✅ CI/CD pipeline
+- ✅ Security scanning
+- ✅ Production ready
+
+## 🔒 Security Features
+
+- Docker security scanning (Trivy)
+- CodeQL analysis
+- Dependency review
+- Security audit
+- Artifact attestation
+
+## 📊 CI/CD Stages
+
+1. **Test** - Build & test aplikasi
+2. **Security** - Security scanning
+3. **Build** - Docker image build
+4. **Deploy** - Auto deployment
+5. **Notify** - Status notification
+
+## 🚀 Deployment Options
+
+### GitHub Container Registry (Default)
+
+```bash
+docker pull ghcr.io/raflytch/rafly-app-next:latest
+```
+
+### Docker Hub (Opsional)
+
+```bash
+docker pull raflytch/rafly-app-next:latest
+```
+
+### Manual Deploy
+
+```bash
+# Clone repository
+git clone https://github.com/raflytch/rafly-app-next.git
+cd rafly-app-next
+
+# Build dan run
+docker-compose up --build
+```
+
+## 📞 Support
+
+Untuk pertanyaan atau issues:
+
+- **Nama**: Rafly Aziz Abdillah
+- **NIM**: 2210512003
+- **Universitas**: UPN Veteran Jakarta
+- **Mata Kuliah**: Cloud Computing
 
 ---
-
-© 2025 Rafly Aziz Abdillah - UPN Veteran Jakarta
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
