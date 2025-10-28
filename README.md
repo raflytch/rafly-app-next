@@ -153,11 +153,13 @@ rafly-app-next/
 ## 🚀 Deployment
 
 ### Docker Hub (Otomatis via CI/CD)
+
 ```bash
 docker pull raflytch/rafly-app-next:latest
 ```
 
 ### Manual Deploy
+
 ```bash
 # Clone repository
 git clone https://github.com/raflytch/rafly-app-next.git
