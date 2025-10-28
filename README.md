@@ -21,26 +21,17 @@ docker run -p 3000:3000 rafly-app-next
 
 ## 🏗️ CI/CD Pipeline
 
-Project ini menggunakan GitHub Actions untuk CI/CD otomatis:
+Project ini menggunakan GitHub Actions untuk build dan push Docker image ke Docker Hub otomatis.
 
 ### Workflows Tersedia:
 
-1. **ci-cd.yml** - Main pipeline (GitHub Container Registry)
-2. **dockerhub.yml** - Docker Hub deployment
-3. **deploy-staging.yml** - Staging environment deployment
-4. **security.yml** - Security dan quality checks
+1. **ci-cd.yml** - Build dan push Docker image ke Docker Hub
 
 ### Setup Secrets (Repository Settings → Secrets and variables → Actions):
 
 ```bash
-# Untuk Docker Hub (opsional)
-DOCKERHUB_USERNAME=your_username
-DOCKERHUB_TOKEN=your_access_token
-
-# Untuk SSH Deployment (staging/production)
-SSH_PRIVATE_KEY=your_private_key
-SERVER_USER=server_username
-SERVER_HOST=your_server_ip
+DOCKERHUB_USERNAME=raflytch
+DOCKERHUB_TOKEN=your_access_token_from_docker_hub
 ```
 
 ## 📦 Teknologi
@@ -108,9 +99,6 @@ docker build -t rafly-app-next .
 
 # Run container
 docker run -d -p 3000:3000 --name rafly-app rafly-app-next
-
-# Dengan nginx reverse proxy
-docker-compose up --build
 ```
 
 ### Development
@@ -142,7 +130,6 @@ rafly-app-next/
 ├── Dockerfile.dev          # Development build
 ├── docker-compose.yml      # Production compose
 ├── docker-compose.dev.yml  # Development compose
-├── nginx.conf              # Reverse proxy config
 └── package.json
 ```
 
@@ -161,41 +148,16 @@ rafly-app-next/
 - ✅ Responsive design
 - ✅ Docker containerization
 - ✅ CI/CD pipeline
-- ✅ Security scanning
 - ✅ Production ready
 
-## 🔒 Security Features
+## 🚀 Deployment
 
-- Docker security scanning (Trivy)
-- CodeQL analysis
-- Dependency review
-- Security audit
-- Artifact attestation
-
-## 📊 CI/CD Stages
-
-1. **Test** - Build & test aplikasi
-2. **Security** - Security scanning
-3. **Build** - Docker image build
-4. **Deploy** - Auto deployment
-5. **Notify** - Status notification
-
-## 🚀 Deployment Options
-
-### GitHub Container Registry (Default)
-
-```bash
-docker pull ghcr.io/raflytch/rafly-app-next:latest
-```
-
-### Docker Hub (Opsional)
-
+### Docker Hub (Otomatis via CI/CD)
 ```bash
 docker pull raflytch/rafly-app-next:latest
 ```
 
 ### Manual Deploy
-
 ```bash
 # Clone repository
 git clone https://github.com/raflytch/rafly-app-next.git

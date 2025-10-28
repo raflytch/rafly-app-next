@@ -11,45 +11,9 @@ env:
   DOCKERHUB_REPO: raflytch/rafly-app-next
 
 jobs:
-  test:
-    name: Test Application
+  build-and-push:
+    name: Build and Push to Docker Hub
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "pnpm"
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run linting
-        run: pnpm lint
-
-      - name: Build application
-        run: pnpm build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-build
-          path: .next/
-          retention-days: 1
-
-  docker-build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    needs: test
 
     steps:
       - name: Checkout code
@@ -75,7 +39,6 @@ jobs:
             type=ref,event=pr
             type=sha,prefix={{branch}}-
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -87,48 +50,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  deploy:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: docker-build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    environment: production
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Deploy to server
-        run: |
-          echo "🚀 Deploying to production server..."
-          echo "Image: ${{ env.DOCKERHUB_REPO }}:latest"
-          # Add your deployment commands here
-          # Example: SSH to server and pull latest image
-          # ssh user@server "docker pull ${{ env.DOCKERHUB_REPO }}:latest && docker-compose up -d"
-
-      - name: Health check
-        run: |
-          echo "🔍 Performing health check..."
-          # Add health check commands here
-          # Example: curl -f http://your-server:3000/api/health || exit 1
-
-  notify:
-    name: Send Notification
-    runs-on: ubuntu-latest
-    needs: [test, docker-build, deploy]
-    if: always()
-
-    steps:
-      - name: Send success notification
-        if: needs.test.result == 'success' && needs.docker-build.result == 'success' && (needs.deploy.result == 'success' || needs.deploy.result == 'skipped')
-        run: |
-          echo "✅ CI/CD Pipeline completed successfully!"
-          echo "📦 Docker image pushed to: ${{ env.DOCKERHUB_REPO }}"
-          # Add notification commands here (Slack, Discord, etc.)
-
-      - name: Send failure notification
-        if: failure()
-        run: |
-          echo "❌ CI/CD Pipeline failed!"
-          # Add failure notification commands here
